@@ -53,3 +53,24 @@ class TestSpreadSheet(TestCase):
         spreadsheet = SpreadSheet()
         spreadsheet.set("A1", "=Apple")
         self.assertEqual('#Error',spreadsheet.evaluate("A1"))
+
+    def test_evaluate_valid_reference_to_a_cell(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "=B1")
+        spreadsheet.set("B1", "1")
+        self.assertEqual(1,spreadsheet.evaluate("A1"))
+
+    def test_evaluate_non_valid_reference_to_a_cell(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "=B1")
+        spreadsheet.set("B1", "1.5")
+        self.assertEqual('#Error',spreadsheet.evaluate("A1"))
+
+    def test_evaluate_circular_reference_to_a_cell(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "=B1")
+        spreadsheet.set("B1", "=A1")
+        self.assertEqual("#Circular",spreadsheet.evaluate("A1"))
+
+
+
