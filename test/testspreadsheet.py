@@ -82,5 +82,10 @@ class TestSpreadSheet(TestCase):
         spreadsheet.set("A1", "1*3")
         self.assertEqual(3,spreadsheet.evaluate("A1"))
 
+    def test_evaluate_subtraction_operation(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "1-3")
+        self.assertEqual(-2,spreadsheet.evaluate("A1"))
+
 
 
