@@ -74,18 +74,37 @@ class TestSpreadSheet(TestCase):
 
     def test_evaluate_addition_operation(self):
         spreadsheet = SpreadSheet()
-        spreadsheet.set("A1", "1+3")
+        spreadsheet.set("A1", "=1+3")
         self.assertEqual(4,spreadsheet.evaluate("A1"))
 
     def test_evaluate_multiplication_operation(self):
         spreadsheet = SpreadSheet()
-        spreadsheet.set("A1", "1*3")
+        spreadsheet.set("A1", "=1*3")
         self.assertEqual(3,spreadsheet.evaluate("A1"))
 
     def test_evaluate_subtraction_operation(self):
         spreadsheet = SpreadSheet()
-        spreadsheet.set("A1", "1-3")
+        spreadsheet.set("A1", "=1-3")
         self.assertEqual(-2,spreadsheet.evaluate("A1"))
 
+    def test_evaluate_division_operation(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "=3/1")
+        self.assertEqual(3,spreadsheet.evaluate("A1"))
 
+    def test_evaluate_invalid_operation(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "=1+3.5")
+        self.assertEqual('#Error',spreadsheet.evaluate("A1"))
+
+    def test_evaluate_precedence_of_operation(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "=1+3*2")
+        self.assertEqual(7,spreadsheet.evaluate("A1"))
+
+    def test_evaluate_division_by_zero(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "=1/0")
+        # division by zero is not possible to return #Error
+        self.assertEqual('#Error',spreadsheet.evaluate("A1"))
 

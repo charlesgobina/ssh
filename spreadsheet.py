@@ -31,8 +31,18 @@ class SpreadSheet:
                     self._evaluation_stack.remove(cell)
                     return result
                 else:
-                    self._evaluation_stack.remove(cell)
-                    return '#Error'
+                    try:
+                        # Evaluate arithmetic expressions
+                        result = eval(value[1:], {}, {})
+                        if isinstance(result, (int, float)) and result.is_integer():
+                            self._evaluation_stack.remove(cell)
+                            return int(result)
+                        else:
+                            self._evaluation_stack.remove(cell)
+                            return '#Error'
+                    except:
+                        self._evaluation_stack.remove(cell)
+                        return '#Error'
             if value.isdigit():
                 self._evaluation_stack.remove(cell)
                 return int(value)
@@ -42,9 +52,9 @@ class SpreadSheet:
             try:
                 # Evaluate arithmetic expressions
                 result = eval(value, {}, {})
-                if isinstance(result, int):
+                if isinstance(result, (int, float)) and result.is_integer():
                     self._evaluation_stack.remove(cell)
-                    return result
+                    return int(result)
                 else:
                     self._evaluation_stack.remove(cell)
                     return '#Error'
