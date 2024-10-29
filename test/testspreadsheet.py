@@ -77,5 +77,10 @@ class TestSpreadSheet(TestCase):
         spreadsheet.set("A1", "1+3")
         self.assertEqual(4,spreadsheet.evaluate("A1"))
 
+    def test_evaluate_multiplication_operation(self):
+        spreadsheet = SpreadSheet()
+        spreadsheet.set("A1", "1*3")
+        self.assertEqual(3,spreadsheet.evaluate("A1"))
+
 
 
