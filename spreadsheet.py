@@ -40,10 +40,15 @@ class SpreadSheet:
                 self._evaluation_stack.remove(cell)
                 return value[1:-1]
             try:
-                float(value)
-                self._evaluation_stack.remove(cell)
-                return '#Error'
-            except ValueError:
+                # Evaluate arithmetic expressions
+                result = eval(value, {}, {})
+                if isinstance(result, int):
+                    self._evaluation_stack.remove(cell)
+                    return result
+                else:
+                    self._evaluation_stack.remove(cell)
+                    return '#Error'
+            except:
                 if value.startswith("'") and not value.endswith("'"):
                     self._evaluation_stack.remove(cell)
                     return '#Error'
